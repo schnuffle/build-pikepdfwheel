@@ -26,9 +26,8 @@ ARG RUNTIME_PACKAGES="\
 
 # Binary dependencies
 RUN apt-get update \
-  && apt-get -y upgrade \
-	&& apt-get -y --no-install-recommends install $BUILD_PACKAGES \
-	&& apt-get -y --no-install-recommends install $RUNTIME_PACKAGES 
+  && apt-get -y --no-install-recommends install $BUILD_PACKAGES \
+  && apt-get -y --no-install-recommends install $RUNTIME_PACKAGES 
 
 WORKDIR /usr/src/
 
