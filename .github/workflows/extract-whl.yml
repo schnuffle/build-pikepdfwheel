@@ -13,12 +13,10 @@ on:
         required: true
         
 jobs:
-
-  build-whl:
+  buildwhl:
     runs-on: ubuntu-latest
-
     steps:
-       - 
+      - 
         name: Extract wheel
         id: extract
         uses: shrink/actions-docker-extract@v1
