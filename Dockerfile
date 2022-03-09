@@ -13,6 +13,8 @@ ARG BUILD_PACKAGES="\
   libpq-dev \
   python3-dev \
   python3-pip \
+  libxml2-dev \
+  libxslt1-dev \
   zlib1g-dev"
 
 ARG RUNTIME_PACKAGES="\
