@@ -8,7 +8,7 @@ ARG BUILD_PACKAGES="\
   autotools-dev \
   build-essential \
   git \
-  # for Numpy
+  libtool \
   libjpeg62-turbo-dev \
   libpq-dev \
   python3-dev \
