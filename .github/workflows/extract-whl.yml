@@ -1,0 +1,33 @@
+name: extract WHL
+
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      name:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Building and uploading pikepdf for armv7'
+        # Default value if no value is explicitly provided
+        default: 'beta'
+        # Input has to be provided for the workflow to run
+        required: true
+        
+jobs:
+
+  build-whl:
+    runs-on: ubuntu-latest
+
+    steps:
+       - 
+        name: Extract wheel
+        id: extract
+        uses: shrink/actions-docker-extract@v1
+        with:
+          image: ghcr.io/schnuffle/build-pikepdfwheel:latest
+          path: '/usr/src/pikepdf/wheels/*.whl'
+      -
+        name: Upload dist
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ steps.extract.outputs.destination }}
+          name: dist
