@@ -23,6 +23,7 @@ jobs:
         id: extract
         uses: shrink/actions-docker-extract@v1
         with:
+          platforms: linux/arm/v7
           image: ghcr.io/schnuffle/build-pikepdfwheel:latest
           path: '/usr/src/pikepdf/wheels/*.whl'
       -
