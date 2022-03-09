@@ -7,7 +7,7 @@ on:
         # Friendly description to be shown in the UI instead of 'name'
         description: 'Building and uploading pikepdf for armv7'
         # Default value if no value is explicitly provided
-        default: ''
+        default: 'beta'
         # Input has to be provided for the workflow to run
         required: true
 
@@ -48,8 +48,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile.base-ngx
-          platforms: linux/amd64,linux/arm/v7,linux/arm64
+          file: ./Dockerfile
+          platforms: linux/arm/v7
           push: true
           tags: ${{ steps.prepare.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -69,8 +69,15 @@ jobs:
         run: |
           docker buildx imagetools inspect ${{ steps.prepare.outputs.inspect_tag }}
       - 
-        name: Extract wheel 
+        name: Extract wheel
+        id: extract
         uses: shrink/actions-docker-extract@v1
         with:
           image: ${{ steps.prepare.outputs.inspect_tag }}
           path: '/usr/src/pikepdf/wheels/*.whl'
+      -
+        name: Upload dist
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ steps.extract.outputs.destination }}
+          name: dist
