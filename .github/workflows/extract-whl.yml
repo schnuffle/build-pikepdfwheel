@@ -3,7 +3,7 @@ name: extract WHL
 on:
   push:
     tags:
-      - v*
+      - 'v*'
 jobs:
   buildwhl:
     runs-on: ubuntu-latest
