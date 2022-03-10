@@ -23,7 +23,7 @@ jobs:
         run: |
           mkdir "${PWD}/artifacts"
           docker create -ti --platform=linux/arm/v7 --name dummy ghcr.io/schnuffle/build-pikepdfwheel bash
-          docker cp dummy:/usr/src/pikepdf/wheels/pikepdf*.whl ${PWD}/artifacts
+          docker cp dummy:/usr/src/pikepdf/wheels ${PWD}/artifacts
           docker rm -f dummy
 
       - name: Show the artifact
