@@ -20,7 +20,7 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: 'v5.0.1'
+          ref: 'v1.0.0'
       - 
         name: Extract WHL
         run: |
