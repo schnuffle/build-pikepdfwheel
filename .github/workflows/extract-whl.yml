@@ -14,14 +14,14 @@ on:
         
 jobs:
   buildwhl:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - 
         name: Run images
         uses: uraimo/run-on-arch-action@v2.1.1
         with:
           arch: armv7
-          distro: ubuntu-20.04
+          distro: ubuntu18.04
           setup: |
             mkdir -p "${PWD}/artifacts"
           dockerRunArgs: |
