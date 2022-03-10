@@ -17,18 +17,21 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      -
-        name: Upload dist
+      - 
+        name: Run images
+        uses: uraimo/run-on-arch-action@v2
+        with:
+          arch: armv7
+          distro: ubuntu-20.04
+          dockerRunArgs: |
+            --volume "${PWD}/artifacts:/artifacts"
+          shell: /bin/sh
+          run: |
+            cp /usr/local/src/pikepdf/wheels/*.whl "/artifacts/"
+            echo "Produced artifact at /artifacts/"
+      - name: Show the artifact
+        # Items placed in /artifacts in the container will be in
+        # ${PWD}/artifacts on the host.
         run: |
-          docker cp --platform=linux/arm64 ghcr.io/schnuffle/build-pikepdfwheel:latest:/usr/localsrc/pikepdf/wheels/*.whl .
-      -
-        name: Show downloads
-        run: |
-          ls -la .
+          ls -al "${PWD}/artifacts"
 
