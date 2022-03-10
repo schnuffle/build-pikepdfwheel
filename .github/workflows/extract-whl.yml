@@ -2,8 +2,7 @@ name: Extract WHL
 
 on:
   push:
-    tags:
-      - v*
+
 jobs:
   extract-wheel:
     runs-on: ubuntu-latest
