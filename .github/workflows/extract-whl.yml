@@ -29,3 +29,9 @@ jobs:
         # ${PWD}/artifacts on the host.
         run: |
           ls -al "${PWD}/artifacts"
+      -
+        name: Upload dist
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${PWD}/artifacts/pikepdf-5.0.1-cp39-cp39-linux_armv7l.whl
+          name: pikepdf-5.0.1-cp39-cp39-linux_armv7l.whl
