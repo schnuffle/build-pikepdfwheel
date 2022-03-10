@@ -24,9 +24,9 @@ jobs:
         # ${PWD}/artifacts on the host.
         run: |
           ls -al "${PWD}/artifacts"
-    -
-      name: Push Release
-    - uses: ncipollo/release-action@v1
-      with:
-        artifacts: "./artifacts/pikepdf-5.0.1-cp39-cp39-linux_armv7l.whl"
-        token: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Push Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./artifacts/pikepdf-5.0.1-cp39-cp39-linux_armv7l.whl"
+          token: ${{ secrets.GITHUB_TOKEN }}
