@@ -8,7 +8,7 @@ on:
         # Friendly description to be shown in the UI instead of 'name'
         description: 'Building and uploading pikepdf for armv7'
         # Default value if no value is explicitly provided
-        default: 'beta'
+        default: 'v5.0.1'
         # Input has to be provided for the workflow to run
         required: true
         
@@ -16,6 +16,13 @@ jobs:
   buildwhl:
     runs-on: ubuntu-latest
     steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v2
+      - 
+        name: Tag Release
+        run: |
+          git tag v5.0.1
       - 
         name: Extract WHL
         run: |
