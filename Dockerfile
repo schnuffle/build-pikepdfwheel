@@ -51,7 +51,7 @@ RUN echo "building pikepdf wheel" \
   && cd pikepdf \
   && mkdir wheels \
   && git checkout --quiet $PIKEPDF_VERSION \
-  && pip wheel . -w wheels --no-deps\
+  && pip wheel . -w wheels \
   && ls -la wheels \
   && apt-get -y --autoremove purge $BUILD_PACKAGES \
   && apt-get clean \
