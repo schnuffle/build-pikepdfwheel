@@ -15,14 +15,15 @@ on:
 jobs:
   buildwhl:
     runs-on: ubuntu-latest
-    
     steps:
       - 
         name: Run images
-        uses: actions/checkout@v2.1.0
+        uses: uraimo/run-on-arch-action@v2
         with:
           arch: armv7
           distro: ubuntu-20.04
+          setup: |
+            mkdir -p "${PWD}/artifacts"
           dockerRunArgs: |
             --volume "${PWD}/artifacts:/artifacts"
           shell: /bin/sh
@@ -34,4 +35,3 @@ jobs:
         # ${PWD}/artifacts on the host.
         run: |
           ls -al "${PWD}/artifacts"
-
