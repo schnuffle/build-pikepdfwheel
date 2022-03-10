@@ -28,7 +28,7 @@ jobs:
             --volume "${PWD}/artifacts:/artifacts"
           shell: /bin/sh
           run: |
-            cp /usr/local/src/pikepdf/wheels/*.whl "/artifacts/"
+            cp /usr/src/pikepdf/wheels/*.whl "/artifacts/"
             echo "Produced artifact at /artifacts/"
       - name: Show the artifact
         # Items placed in /artifacts in the container will be in
