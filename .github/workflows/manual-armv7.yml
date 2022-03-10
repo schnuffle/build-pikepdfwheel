@@ -21,7 +21,7 @@ jobs:
         name: Prepare
         id: prepare
         run: |
-          IMAGE_NAME=ghcr.io/schnuffle/build-pikepdfwheel
+          IMAGE_NAME=ghcr.io/schnuffle/build-pikepdfwheel-armv7
           TAGS=${IMAGE_NAME}:latest
           INSPECT_TAG=${IMAGE_NAME}:latest
 
@@ -68,16 +68,3 @@ jobs:
         name: Inspect image
         run: |
           docker buildx imagetools inspect ${{ steps.prepare.outputs.inspect_tag }}
-      - 
-        name: Extract wheel
-        id: extract
-        uses: shrink/actions-docker-extract@v1
-        with:
-          image: ${{ steps.prepare.outputs.inspect_tag }}
-          path: '/usr/src/pikepdf/wheels/*.whl'
-      -
-        name: Upload dist
-        uses: actions/upload-artifact@v2
-        with:
-          path: ${{ steps.extract.outputs.destination }}
-          name: dist

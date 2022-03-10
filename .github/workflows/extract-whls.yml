@@ -1,0 +1,59 @@
+name: Extract WHL
+
+on:
+  push:
+    tags: 'v*'
+
+jobs:
+  extract-wheel-armv7:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Checkout Source
+        uses: actions/checkout@v2    
+      - 
+        name: Extract WHL
+        run: |
+          mkdir "${PWD}/artifacts"
+          docker create -ti --name dummy ghcr.io/schnuffle/build-pikepdfwheel-armv7 bash
+          docker cp dummy:/usr/src/pikepdf/wheels/pikepdf*.whl ${PWD}/artifacts
+          docker rm -f dummy
+
+      - name: Show the artifact
+        # Items placed in /artifacts in the container will be in
+        # ${PWD}/artifacts on the host.
+        run: |
+          ls -al "${PWD}/artifacts"
+      -
+        name: Push Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./artifacts/pikepdf*.whl"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  extract-wheel-arm64:
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Checkout Source
+        uses: actions/checkout@v2    
+      - 
+        name: Extract WHL
+        run: |
+          mkdir "${PWD}/artifacts"
+          docker create -ti --name dummy ghcr.io/schnuffle/build-pikepdfwheel-arm64 bash
+          docker cp dummy:/usr/src/pikepdf/wheels/pikepdf*.whl ${PWD}/artifacts
+          docker rm -f dummy
+
+      - name: Show the artifact
+        # Items placed in /artifacts in the container will be in
+        # ${PWD}/artifacts on the host.
+        run: |
+          ls -al "${PWD}/artifacts"
+      -
+        name: Push Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./artifacts/pikepdf-5.0.1-cp39-cp39-linux_armv7l.whl"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
