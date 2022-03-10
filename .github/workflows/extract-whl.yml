@@ -15,12 +15,20 @@ on:
 jobs:
   buildwhl:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/schnuffle/build-pikepdfwheel:latest
+    
     steps:
       -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
         name: Upload dist
-        uses: actions/upload-artifact@v2
-        with:
-          path: /usr/src/pikepdf/wheels/*.whl
-          name: dist
+        run: |
+          docker cp --platform=linux/arm64 ghcr.io/schnuffle/build-pikepdfwheel:latest:/usr/localsrc/pikepdf/wheels/*.whl .
+      -
+        name: Show downloads
+        run: |
+          ls -la .
+
