@@ -14,24 +14,13 @@ on:
         
 jobs:
   buildwhl:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - 
-        name: Run images
-        uses: uraimo/run-on-arch-action@v2.1.1
-        with:
-          arch: armv7
-          distro: ghcr.io/schnuffle/build-pikepdfwheel
-          setup: |
-            mkdir -p "${PWD}/artifacts"
-          dockerRunArgs: |
-            --volume "${PWD}/artifacts:/artifacts"
-          shell: /bin/sh
-          run: |
-            ls -la /usr/src
-            ls -la /usr/src/pikepdf
-            #cp /usr/src/pikepdf/wheels/*.whl "/artifacts/"
-            echo "Produced artifact at /artifacts/"
+        name: Extract WHL
+        run: |
+          docker cp ghcr.io/schnuffle/build-pikepdfwheel:latest:/usr/src/pikepdf/wheels/*.whl ${PWD}
+
       - name: Show the artifact
         # Items placed in /artifacts in the container will be in
         # ${PWD}/artifacts on the host.
