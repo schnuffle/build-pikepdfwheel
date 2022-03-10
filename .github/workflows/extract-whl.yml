@@ -19,7 +19,7 @@ jobs:
     steps:
       - 
         name: Run images
-        uses: uraimo/run-on-arch-action@v2
+        uses: actions/checkout@v2.1.0
         with:
           arch: armv7
           distro: ubuntu-20.04
