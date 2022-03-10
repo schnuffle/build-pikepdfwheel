@@ -30,10 +30,10 @@ jobs:
         # Items placed in /artifacts in the container will be in
         # ${PWD}/artifacts on the host.
         run: |
-          ls -al "${PWD}/artifacts"
+          ls -al "${PWD}/artifacts/wheels"
       -
         name: Push Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "./artifacts/wheels/*"
+          artifacts: "./artifacts/wheels"
           token: ${{ secrets.GITHUB_TOKEN }}
