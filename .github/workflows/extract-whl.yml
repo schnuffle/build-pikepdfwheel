@@ -15,24 +15,12 @@ on:
 jobs:
   buildwhl:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/schnuffle/build-pikepdfwheel:latest
     steps:
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      - 
-        name: Extract wheel
-        id: extract
-        uses: shrink/actions-docker-extract@v1
-        with:
-          platforms: linux/arm/v7
-          image: ghcr.io/schnuffle/build-pikepdfwheel:latest
-          path: '/usr/src/pikepdf/wheels/*.whl'
       -
         name: Upload dist
         uses: actions/upload-artifact@v2
         with:
-          path: ${{ steps.extract.outputs.destination }}
+          path: /usr/src/pikepdf/wheels/*.whl
           name: dist
