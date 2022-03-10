@@ -35,6 +35,6 @@ jobs:
         name: Push Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "./artifacts/wheels"
+          artifacts: "./artifacts/wheels/*.whl"
           token: ${{ secrets.GITHUB_TOKEN }}
 
