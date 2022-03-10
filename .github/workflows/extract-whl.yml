@@ -1,17 +1,9 @@
 name: extract WHL
 
 on:
-  workflow_dispatch:
-    # Inputs the workflow accepts.
-    inputs:
-      name:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Building and uploading pikepdf for armv7'
-        # Default value if no value is explicitly provided
-        default: 'beta'
-        # Input has to be provided for the workflow to run
-        required: true
-        
+  push:
+    tags:
+      - v*
 jobs:
   buildwhl:
     runs-on: ubuntu-latest
@@ -29,9 +21,12 @@ jobs:
         # ${PWD}/artifacts on the host.
         run: |
           ls -al "${PWD}/artifacts"
+      - 
+        name: Checkout
+        uses: actions/checkout@v2
       -
-        name: Upload Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        name: Push Release
+        uses: ncipollo/release-action@v1
         with:
-          files: ./artifacts/pikepdf-5.0.1-cp39-cp39-linux_armv7l.whl
+          artifacts: "./artifacts/pikepdf-5.0.1-cp39-cp39-linux_armv7l.whl"
+          token: ${{ secrets.GITHUB_TOKEN }}
