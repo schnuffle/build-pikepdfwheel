@@ -19,13 +19,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - 
-        name: Extract WHL
+        name: Extract WHL ARMV7
         run: |
           mkdir "${PWD}/artifacts"
           docker create -ti --platform=linux/arm/v7 --name dummy ghcr.io/schnuffle/build-pikepdfwheel bash
           docker cp dummy:/usr/src/pikepdf/wheels ${PWD}/artifacts
           docker rm -f dummy
-
+      - 
+        name: Extract WHL ARM64
+        run: |
+          docker create -ti --platform=linux/arm64 --name dummy ghcr.io/schnuffle/build-pikepdfwheel-arm64:latest bash
+          docker cp dummy:/usr/src/pikepdf/wheels ${PWD}/artifacts
+          docker rm -f dummy
+          
       - name: Show the artifact
         # Items placed in /artifacts in the container will be in
         # ${PWD}/artifacts on the host.
