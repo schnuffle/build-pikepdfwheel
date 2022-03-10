@@ -19,10 +19,8 @@ jobs:
       - 
         name: Checkout
         uses: actions/checkout@v2
-      - 
-        name: Tag Release
-        run: |
-          git tag v5.0.1
+        with:
+          ref: 'v5.0.1'
       - 
         name: Extract WHL
         run: |
