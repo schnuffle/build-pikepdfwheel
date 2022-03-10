@@ -1,11 +1,11 @@
-name: Extract WHL ARMV7
+name: Extract WHLS for  ARMV7/64
 
 on:
   push:
     tags: 'v*'
 
 jobs:
-  extract-wheel-armv7:
+  extract-wheels:
     runs-on: ubuntu-latest
     steps:
       - 
