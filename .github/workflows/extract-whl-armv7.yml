@@ -22,7 +22,7 @@ jobs:
         name: Extract WHL
         run: |
           mkdir "${PWD}/artifacts"
-          docker create -ti --name dummy ghcr.io/schnuffle/build-pikepdfwheel bash
+          docker create -ti --platform=linux/arm/v7 --name dummy ghcr.io/schnuffle/build-pikepdfwheel bash
           docker cp dummy:/usr/src/pikepdf/wheels/pikepdf*.whl ${PWD}/artifacts
           docker rm -f dummy
 
