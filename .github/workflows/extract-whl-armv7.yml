@@ -1,4 +1,4 @@
-name: Extract WHL
+name: Extract WHL ARMV7
 
 on:
   push:
