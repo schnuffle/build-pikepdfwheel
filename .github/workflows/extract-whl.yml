@@ -19,7 +19,8 @@ jobs:
       - 
         name: Extract WHL
         run: |
-          docker cp ghcr.io/schnuffle/build-pikepdfwheel:latest:/usr/src/pikepdf/wheels/*.whl ${PWD}
+          mkdir "${PWD}/artifacts"
+          docker cp ghcr.io/schnuffle/build-pikepdfwheel:latest:/usr/src/pikepdf/wheels/*.whl ${PWD}/artifacts
 
       - name: Show the artifact
         # Items placed in /artifacts in the container will be in
