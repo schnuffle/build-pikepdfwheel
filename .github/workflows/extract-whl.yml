@@ -11,7 +11,9 @@ on:
         default: 'v5.0.1'
         # Input has to be provided for the workflow to run
         required: true
-        
+  push:
+    tags:
+      - v*       
 jobs:
   buildwhl:
     runs-on: ubuntu-latest
@@ -19,8 +21,6 @@ jobs:
       - 
         name: Checkout
         uses: actions/checkout@v2
-        with:
-          ref: 'v1.0.0'
       - 
         name: Extract WHL
         run: |
