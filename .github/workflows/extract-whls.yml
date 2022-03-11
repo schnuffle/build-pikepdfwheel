@@ -26,7 +26,8 @@ jobs:
           docker create -ti --platform=linux/arm/v7 --name dummy ghcr.io/schnuffle/build-pikepdfwheel-armv7:latest bash
           docker cp dummy:/usr/src/pikepdf/wheels ${PWD}/artifacts
           docker cp dummy:/usr/src/jbig2enc ${PWD}/artifacts/jbig2enc
-          tar czf ${PWD}/artifacts/jbig2enc-armv7.tgz ${PWD}/artifacts/jbig2enc
+          cd ${PWD}/artifacts
+          tar czf ./jbig2enc-armv7.tgz ./jbig2enc
           rm -fR ${PWD}/artifacts/jbig2enc
           docker rm -f dummy
       - 
@@ -36,7 +37,8 @@ jobs:
           docker create -ti --platform=linux/arm64 --name dummy ghcr.io/schnuffle/build-pikepdfwheel-arm64:latest bash
           docker cp dummy:/usr/src/pikepdf/wheels ${PWD}/artifacts
           docker cp dummy:/usr/src/jbig2enc ${PWD}/artifacts/jbig2enc
-          tar czf ${PWD}/artifacts/jbig2enc-arm64.tgz ${PWD}/artifacts/jbig2enc
+          cd ${PWD}/artifacts
+          tar czf jbig2enc-arm64.tgz ./jbig2enc
           rm -fR ${PWD}/artifacts/jbig2enc          
           docker rm -f dummy
           
