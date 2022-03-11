@@ -25,7 +25,7 @@ jobs:
           mkdir -p "${PWD}/artifacts/jbig2enc"
           docker create -ti --platform=linux/arm/v7 --name dummy ghcr.io/schnuffle/build-pikepdfwheel bash
           docker cp dummy:/usr/src/pikepdf/wheels ${PWD}/artifacts
-          docker cp dummy:/usr/src/jbig2enc/src ${PWD}/artifacts/jbig2enc
+          docker cp dummy:/usr/src/jbig2enc ${PWD}/artifacts/jbig2enc
           tar czf ${PWD}/artifacts/jbig2enc-armv7.tgz ${PWD}/artifacts/jbig2enc
           rm -fR ${PWD}/artifacts/jbig2enc
           docker rm -f dummy
