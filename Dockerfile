@@ -55,9 +55,9 @@ RUN echo "building pikepdf wheel" \
   && pip wheel . -w wheels \
   && ls -la wheels 
 
-RUN echo "building jbig2enc"
-  && mkdir /usr/src/jbig2enc
-  && cd /usr/src/jbig2enc
+RUN echo "building jbig2enc" \
+  && mkdir /usr/src/jbig2enc \
+  && cd /usr/src/jbig2enc \
   && git clone --quiet https://github.com/agl/jbig2enc . \
   && ./autogen.sh \
   && ./configure && make \
