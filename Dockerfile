@@ -53,7 +53,15 @@ RUN echo "building pikepdf wheel" \
   && mkdir wheels \
   && git checkout --quiet $PIKEPDF_VERSION \
   && pip wheel . -w wheels \
-  && ls -la wheels \
+  && ls -la wheels 
+
+RUN echo "building jbig2enc"
+  && mkdir /usr/src/jbig2enc
+  && cd /usr/src/jbig2enc
+  && git clone --quiet https://github.com/agl/jbig2enc . \
+  && ./autogen.sh \
+  && ./configure && make \
+  && ls -la /usr/src/jbig2enc
   && apt-get -y --autoremove purge $BUILD_PACKAGES \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
