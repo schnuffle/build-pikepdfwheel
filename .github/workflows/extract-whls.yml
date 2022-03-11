@@ -22,7 +22,7 @@ jobs:
         name: Extract WHL ARMV7
         run: |
           mkdir "${PWD}/artifacts"
-          mkdir -P "${PWD}/artifacts/jbig2enc"
+          mkdir -p "${PWD}/artifacts/jbig2enc"
           docker create -ti --platform=linux/arm/v7 --name dummy ghcr.io/schnuffle/build-pikepdfwheel bash
           docker cp dummy:/usr/src/pikepdf/wheels ${PWD}/artifacts
           docker cp dummy:/usr/src/jbig2enc/src ${PWD}/artifacts/jbig2enc
@@ -32,7 +32,7 @@ jobs:
       - 
         name: Extract WHL ARM64
         run: |
-          mkdir -P "${PWD}/artifacts/jbig2enc"
+          mkdir -p "${PWD}/artifacts/jbig2enc"
           docker create -ti --platform=linux/arm64 --name dummy ghcr.io/schnuffle/build-pikepdfwheel-arm64:latest bash
           docker cp dummy:/usr/src/pikepdf/wheels ${PWD}/artifacts
           docker cp dummy:/usr/src/jbig2enc ${PWD}/artifacts/jbig2enc
