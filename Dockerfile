@@ -15,6 +15,7 @@ ARG BUILD_PACKAGES="\
   python3-pip \
   libxml2-dev \
   libxslt1-dev \
+  libleptonica-dev \
   zlib1g-dev"
 
 ARG RUNTIME_PACKAGES="\
