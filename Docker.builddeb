@@ -1,1 +1,56 @@
-FROM 3.9-alpine
+FROM 3.9-slim
+
+ARG PIKEPDF_VERSION="v5.0.1"
+ARG DEBIAN_FRONTEND=noninteractive
+ARG QPDF_VERSION="release-qpdf-10.6.2"
+ARG BUILD_PACKAGES="\
+  automake \
+  autotools-dev \
+  build-essential \
+  git \
+  libtool \
+  libjpeg62-turbo-dev \
+  libpq-dev \
+  python3-dev-all \
+  python3-pip \
+  libxml2-dev \
+  libxslt1-dev \
+  libleptonica-dev \
+  zlib1g-dev \
+  packaging-dev \
+  debian-keyring \
+  devscripts \ 
+  equivs \
+  
+
+
+ARG RUNTIME_PACKAGES="\
+  curl \
+  gosu \
+  libxml2 \
+  python3 \
+  python3-setuptools \
+  tzdata \
+  zlib1g"
+
+# Binary dependencies
+RUN apt-get update \
+  && apt-get -y --no-install-recommends install $BUILD_PACKAGES \
+  && apt-get -y --no-install-recommends install $RUNTIME_PACKAGES 
+
+WORKDIR /usr/src
+
+RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/sources.list.d/bookworm-src.list \
+  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138 
+  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 \
+  && apt update \
+  && mkdir qpdf \
+  && cd qdf \
+  && apt source libqpdf28/testing \
+  && cd pikepdf-5.0.1+dfsg \
+  && mk-build-deps --install --remove \
+  && dch --bpo \
+  && dpkg-buildpackage -b -us -uc \
+  && apt install -y --no-install-recommends ../libqpdf-dev_*.de \
+  && apt install -y --no-install-recommends --/libqpdf28_*.deb \
+  
