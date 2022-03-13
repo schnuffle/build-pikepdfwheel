@@ -1,4 +1,4 @@
-FROM 3.9-slim
+FROM python:3.9-slim
 
 ARG PIKEPDF_VERSION="v5.0.1"
 ARG DEBIAN_FRONTEND=noninteractive
