@@ -1,0 +1,30 @@
+FROM ghcr.io/schnuffle/
+
+
+WORKDIR /usr/src
+
+RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/sources.list.d/bookworm-src.list \
+  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138 \
+  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 \
+  && apt update \
+  && mkdir qpdf \
+  && cd qpdf \
+  && apt source libqpdf28/testing \
+  && cd qpdf-10.6.2 \
+  && DEBEMAIL=me@schnuffle.de dch --bpo \
+  && dpkg-buildpackage -b -us -uc \
+  && apt install -y --no-install-recommends ../libqpdf-dev_*.de \
+  && apt install -y --no-install-recommends --/libqpdf28_*.deb 
+
+WORKDIR /usr/src
+COPY debian.control .
+
+RUN echo "Building pikepdf backport" \
+  && mkdir pikepdf \
+  && cd pikepdf \
+  && apt source pikepdf/testing \
+  && cd pikepdf-5.0.1+dfsg \
+  && cp /usr/src/debian.contorl debian/control
+  && DEBEMAIL=me@schnuffle.de dch --bpo \
+  && dpkg-buildpackage -b -us -uc \
+  && apt install -y --no-install-recommends ../python3-pikepdf_*.deb 
