@@ -293,19 +293,23 @@ RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/source
   && cd qpdf \
   && apt source libqpdf28/testing \
   && cd qpdf-10.6.2 \
-  && mk-build-deps --install --remove \
-  && dch --bpo \
+  && DEBEMAIL=me@schnuffle.de dch --bpo \
   && dpkg-buildpackage -b -us -uc \
   && apt install -y --no-install-recommends ../libqpdf-dev_*.de \
   && apt install -y --no-install-recommends --/libqpdf28_*.deb 
 
 WORKDIR /usr/src
+COPY debian.control .
 
 RUN echo "Building pikepdf backport" \
   && mkdir pikepdf \
   && cd pikepdf \
   && apt source pikepdf/testing \
   && cd pikepdf-5.0.1+dfsg \
-  && mk-build-deps --install --remove \
+  && cp /usr/src/debian.contorl debian/control
+  && DEBEMAIL=me@schnuffle.de dch --bpo \
+  && dpkg-buildpackage -b -us -uc \
+  && apt install -y --no-install-recommends ../python3-pikepdf_*.deb 
+
   
   
