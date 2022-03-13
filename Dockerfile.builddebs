@@ -1,4 +1,4 @@
-FROM ghcr.io/schnuffle/build-pikepdfwheel-backport-arm-base
+FROM ghcr.io/schnuffle/build-pikepdfwheel-backport-arm-base:latest
 
 
 WORKDIR /usr/src
