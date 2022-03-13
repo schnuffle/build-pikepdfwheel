@@ -95,7 +95,14 @@ ARG BUILD_PACKAGES="\
   libgdbm6 \
   libgfortran5 \
   libgmp10 \
+  libgmpxx4ldbl \
   libgnutls30 \
+  libgmpxx4ldbl \
+  libgnutls-dane0 \
+  libgnutls-openssl27 \
+  libgnutls28-dev \
+  libgnutls30 \
+  libgnutlsxx28 \
   libgomp1 \
   libgpg-error0 \
   libgssapi-krb5-2 \
@@ -131,6 +138,7 @@ ARG BUILD_PACKAGES="\
   libnettle8 \
   libnsl-dev \
   libnsl2 \
+  libp11-kit-dev \
   libp11-kit0 \
   libpam-modules \
   libpam-modules-bin \
@@ -163,6 +171,7 @@ ARG BUILD_PACKAGES="\
   libsub-override-perl \
   libsystemd0 \
   libtasn1-6 \
+  libtasn1-6-dev \
   libtiff5 \
   libtinfo6 \
   libtirpc-common \
@@ -172,6 +181,7 @@ ARG BUILD_PACKAGES="\
   libubsan1 \
   libuchardet0 \
   libudev1 \
+  libunbound8 \
   libunistring2 \
   libuuid1 \
   libwebp6 \
@@ -197,6 +207,7 @@ ARG BUILD_PACKAGES="\
   mime-support \
   ncurses-base \
   ncurses-bin \
+  nettle-dev \
   packaging-dev \
   patch \
   perl \
