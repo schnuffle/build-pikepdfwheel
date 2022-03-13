@@ -1,0 +1,42 @@
+Source: pikepdf
+Section: python
+Priority: optional
+Maintainer: Debian Python Team <team+python@tracker.debian.org>
+Uploaders: Sean Whitton <spwhitton@spwhitton.name>
+Build-Depends:
+ debhelper-compat (= 12),
+ dh-python,
+ libqpdf-dev (>= 10.6.2),
+ python3-all-dev,
+ python3-pil,
+ python3-pybind11 (>= 2.4.3),
+ python3-setuptools,
+ python3-setuptools-scm,
+ python3-setuptools-scm-git-archive,
+ python3-matplotlib,
+ python3-packaging,
+ python3-ipython,
+ python3-lxml,
+Standards-Version: 4.1.5
+Homepage: https://github.com/pikepdf/pikepdf
+Vcs-Browser: https://salsa.debian.org/python-team/packages/pikepdf
+Vcs-Git: https://salsa.debian.org/python-team/packages/pikepdf.git
+
+Package: python3-pikepdf
+Architecture: any
+Depends: ${misc:Depends}, ${python3:Depends}, ${shlibs:Depends}, python3-pkg-resources
+Provides: ${python3:Provides}
+XB-Python-Version: ${python3:Versions}
+Description: Python library to read and write PDFs with QPDF
+ pikepdf is a Python library to read and write PDFs with QPDF.
+ Features include:
+ .
+   * Editing, manipulation and transformation of existing PDFs
+   * Based on the mature, proven QPDF C++ library
+   * Works with encrypted PDFs
+   * Supports all PDF compression filters
+   * Can create "fast web view" (linearized) PDFs
+   * Creates standards compliant PDFs that pass validation in other tools
+   * Automatically repairs damaged PDFs, just like QPDF
+   * Implements more of the PDF specification than existing Python PDF tools
+   * IPython notebook and Jupyter integration
