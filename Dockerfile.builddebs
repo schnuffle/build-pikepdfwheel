@@ -12,8 +12,8 @@ RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/source
   && DEBEMAIL=me@schnuffle.de dch --bpo \
   && dpkg-buildpackage -b -us -uc \
   && apt install -y --no-install-recommends $(ls ../libqpdf28_*.deb) \
-  && apt install -y --no-install-recommends $(ls../libqpdf-dev_*.deb) \
-  && apt install -y --no-install-recommends $(ls../qpdf_*.deb)
+  && apt install -y --no-install-recommends $(ls ../libqpdf-dev_*.deb) \
+  && apt install -y --no-install-recommends $(ls ../qpdf_*.deb)
 
 WORKDIR /usr/src
 COPY debian.control .
