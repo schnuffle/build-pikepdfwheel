@@ -21,7 +21,7 @@ jobs:
         name: Prepare
         id: prepare
         run: |
-          IMAGE_NAME=ghcr.io/schnuffle/build-pikepdfwheel-backport-arm-base
+          IMAGE_NAME=ghcr.io/schnuffle/build-pikepdfwheel-backport-arm-base-qpdf
           TAGS=${IMAGE_NAME}:latest
           INSPECT_TAG=${IMAGE_NAME}:latest
 
@@ -48,7 +48,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile.buildbase
+          file: ./Dockerfile.buildqpd
           platforms: linux/arm/v7,linux/arm64
           push: true
           tags: ${{ steps.prepare.outputs.tags }}
