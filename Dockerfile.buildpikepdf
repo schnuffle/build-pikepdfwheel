@@ -1,0 +1,25 @@
+FROM ghcr.io/schnuffle/build-pikepdfwheel-backport-arm-base-qpdf:latest
+
+WORKDIR /usr/src
+
+RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/sources.list.d/bookworm-src.list \
+  && apt update \
+  && apt install -y --no-install-recommends python3-sphinx \
+  && apt install -y --no-install-recommends python3-pybind11
+  && pip3 install --upgrade pip \
+  && pip3 install sphinx-panels \
+  && pip3 install tomli
+
+
+WORKDIR /usr/src
+COPY debian.control .
+
+RUN echo "Building pikepdf backport" \
+  && mkdir pikepdf \
+  && cd pikepdf \
+  && apt source pikepdf/testing \
+  && cd pikepdf-5.0.1+dfsg \
+  && cp /usr/src/debian.control debian/control \
+  && DEBEMAIL=me@schnuffle.de dch --bpo \
+  && dpkg-buildpackage -b -us -uc \
+  && apt install -y --no-install-recommends $(ls ../python3-pikepdf_*.deb) 
