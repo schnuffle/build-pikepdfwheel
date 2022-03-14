@@ -248,6 +248,9 @@ ARG BUILD_PACKAGES="\
   python3-setuptools \
   python3-setuptools-scm \
   python3-setuptools-scm-git-archive \
+  python3-sphinx \
+  python3-sphinx-issues \
+  python3-sphinx-rtd-theme \ 
   python3-six \
   python3-traitlets \
   python3-wcwidth \
@@ -281,7 +284,5 @@ ARG RUNTIME_PACKAGES="\
 # Binary dependencies
 RUN apt-get update \
   && apt-get -y --no-install-recommends install $BUILD_PACKAGES \
-  && apt-get -y --no-install-recommends install $RUNTIME_PACKAGES 
-
-  
-  
+  && apt-get -y --no-install-recommends install $RUNTIME_PACKAGES \
+  && pip3 install sphinx-panels
