@@ -285,4 +285,5 @@ ARG RUNTIME_PACKAGES="\
 RUN apt-get update \
   && apt-get -y --no-install-recommends install $BUILD_PACKAGES \
   && apt-get -y --no-install-recommends install $RUNTIME_PACKAGES \
-  && pip3 install sphinx-panels
+  && pip3 install sphinx-panels \
+  && pip3 install tomli
