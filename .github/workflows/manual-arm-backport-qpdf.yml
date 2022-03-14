@@ -1,4 +1,4 @@
-name: Create Arm backport base image for armv7/arm64
+name: QPDF backport
 on:
   workflow_dispatch:
     # Inputs the workflow accepts.
