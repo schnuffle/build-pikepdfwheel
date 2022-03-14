@@ -5,6 +5,7 @@ WORKDIR /usr/src
 
 RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/sources.list.d/bookworm-src.list \
   && apt update \
+  && apt install -y --no-install-recommends python3-sphinx
   && mkdir qpdf \
   && cd qpdf \
   && apt source libqpdf28/testing \
