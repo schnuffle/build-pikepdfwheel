@@ -13,10 +13,14 @@ Build-Depends:
  python3-setuptools,
  python3-setuptools-scm,
  python3-setuptools-scm-git-archive,
+ python3-sphinx,
+ python3-sphinx-issues,
+ python3-sphinx-rtd-theme,
  python3-matplotlib,
  python3-packaging,
  python3-ipython,
  python3-lxml,
+ python3-tomli,
 Standards-Version: 4.1.5
 Homepage: https://github.com/pikepdf/pikepdf
 Vcs-Browser: https://salsa.debian.org/python-team/packages/pikepdf
@@ -40,3 +44,18 @@ Description: Python library to read and write PDFs with QPDF
    * Automatically repairs damaged PDFs, just like QPDF
    * Implements more of the PDF specification than existing Python PDF tools
    * IPython notebook and Jupyter integration
+
+Package: pikepdf-doc
+Section: doc
+Architecture: all
+Depends:
+ ${misc:Depends},
+ ${sphinxdoc:Depends},
+Built-Using: ${sphinxdoc:Built-Using}
+Description: Python library to read and write PDFs with QPDF - documentation
+ pikepdf is a Python library to read and write PDFs with QPDF.
+ .
+ This package includes pikepdf's HTML documentation.
+ .
+ See the description for the pikepdf binary package for more
+ information about pikepdf.

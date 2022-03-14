@@ -17,14 +17,14 @@ RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/source
   && apt install -y --no-install-recommends $(ls ../qpdf_*.deb)
 
 WORKDIR /usr/src
-COPY debian.control .
+COPY control.debian .
 
 RUN echo "Building pikepdf backport" \
   && mkdir pikepdf \
   && cd pikepdf \
   && apt source pikepdf/testing \
   && cd pikepdf-5.0.1+dfsg \
-  && cp /usr/src/debian.control debian/control \
+  && cp /usr/src/control.debian debian/control
   && DEBEMAIL=me@schnuffle.de dch --bpo \
   && dpkg-buildpackage -b -us -uc \
   && apt install -y --no-install-recommends $(ls ../python3-pikepdf_*.deb) 
