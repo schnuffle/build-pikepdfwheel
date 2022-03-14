@@ -17,7 +17,7 @@ RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/source
   && apt install -y --no-install-recommends $(ls ../qpdf_*.deb)
 
 WORKDIR /usr/src
-COPY control.debian .
+COPY debian.control .
 
 RUN echo "Building pikepdf backport" \
   && mkdir pikepdf \
