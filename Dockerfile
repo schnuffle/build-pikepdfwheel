@@ -1,11 +1,8 @@
-FROM python:3.9-slim-bullseye
+FROM ghcr.io/schnuffle/build-pikepdfwheel-backport-arm-base-qpdf:latest
 
 ARG PIKEPDF_VERSION="v5.0.1"
 ARG DEBIAN_FRONTEND=noninteractive
-ARG QPDF_VERSION="release-qpdf-10.6.2"
 ARG BUILD_PACKAGES="\
-  automake \
-  autotools-dev \
   build-essential \
   git \
   libtool \
@@ -29,31 +26,20 @@ ARG RUNTIME_PACKAGES="\
 
 # Binary dependencies
 RUN apt-get update \
-  && apt-get -y --no-install-recommends install $BUILD_PACKAGES \
-  && apt-get -y --no-install-recommends install $RUNTIME_PACKAGES 
+  && apt-get -y upgrade \ 
+  && apt-get -y --no-install-recommends install $BUILD_PACKAGES $RUNTIME_PACKAGES
 
 WORKDIR /usr/src/
 
-# Python dependencies and library dependencies
-RUN echo "Building qpdf" \
-  && mkdir -p /usr/src/qpdf \
-  && cd /usr/src/qpdf \
-  && git clone https://github.com/qpdf/qpdf.git . \
-  && git checkout --quiet ${QPDF_VERSION} \
-  && ./configure \
-  && make \
-  && make install \
-  && cd /usr/src \
-  && rm -rf /usr/src/qpdf \
-  && python3 -m pip install --upgrade pip wheel 
-
 RUN echo "building pikepdf wheel" \
+  && ppython3 -m pip install --upgrade pip wheel --upgrade pip wheel \
   && git clone https://github.com/pikepdf/pikepdf.git \
   && cd pikepdf \
   && mkdir wheels \
   && git checkout --quiet $PIKEPDF_VERSION \
   && pip wheel . -w wheels \
-  && ls -la wheels 
+  && ls -la wheels \
+  && python3 -m pip install wheels/*.whl
 
 RUN echo "building jbig2enc" \
   && mkdir /usr/src/jbig2enc \
