@@ -60,7 +60,8 @@ RUN echo "Building pikepdf backport" \
   && cd pikepdf \
   && apt source pikepdf/testing \
   && cd pikepdf-5.0.1+dfsg \
-#  && cp /usr/src/debian.control debian/control \
-#  && DEBEMAIL=me@schnuffle.de dch --bpo \
+  && cp /usr/src/debian.control debian/control \
+  && DEBEMAIL=me@schnuffle.de dch --bpo \
+  && echo"Building backport" \
   && dpkg-buildpackage -us -uc -d \
   && apt install -y --no-install-recommends $(ls ../python3-pikepdf_*.deb) 
