@@ -1,7 +1,27 @@
 FROM ghcr.io/schnuffle/build-pikepdfwheel-backport-arm-base-qpdf:latest
+
+ARG DEB_PACKAGES="\
+"
 ARG BUILD_PACKAGES="\
-  python3-sphinx python3-setuptools \
-  python3-packaging"
+ build-essential \
+ debhelper-compat
+ dh-python \
+ libqpdf-dev \
+ python3-all-dev \
+ python3-pil \
+ python3-pybind11 \
+ python3-setuptools \
+ python3-setuptools-scm \
+ python3-setuptools-scm-git-archive \
+ python3-sphinx \
+ python3-sphinx-issues \
+ python3-sphinx-rtd-theme \
+ python3-sphinx-panels \
+ python3-matplotlib \
+ python3-packaging \
+ python3-ipython \
+ python3-lxml \
+ python3-tomli"
   
 WORKDIR /usr/src
 
