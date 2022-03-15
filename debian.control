@@ -6,7 +6,6 @@ Uploaders: Sean Whitton <spwhitton@spwhitton.name>
 Build-Depends:
  debhelper-compat (= 12),
  dh-python,
- libqpdf-dev (>= 10.6.2),
  python3-all-dev,
  python3-pil,
  python3-setuptools,
