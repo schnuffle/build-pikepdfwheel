@@ -15,6 +15,7 @@ ARG DEB_PACKAGES="\
 
 # QPDF has been already installed into the image built from a backport
 # libqpdf-dev \
+# python3-pybind11 \
 
 ARG BUILD_PACKAGES="\
  build-essential \
@@ -22,7 +23,6 @@ ARG BUILD_PACKAGES="\
  dh-python \
  python3-all-dev \
  python3-pil \
- python3-pybind11 \
  python3-setuptools \
  python3-sphinx \
  python3-sphinx-issues \
@@ -41,7 +41,8 @@ RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/source
   && python3 -m pip install setuptools-scm \
   && python3 -m pip install setuptools_scm_git_archive \
   && python3 -m pip install sphinx-panels \
-  && python3 -m pip install tomli
+  && python3 -m pip install tomli \
+  && python3 -m pip install pybind11[global]
 
 
 
