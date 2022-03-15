@@ -5,7 +5,7 @@ WORKDIR /usr/src
 RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/sources.list.d/bookworm-src.list \
   && apt update \
   && apt install -y --no-install-recommends python3-sphinx \
-  && apt install -y --no-install-recommends python3-pybind11
+  && apt install -y --no-install-recommends python3-pybind11 \
   && pip3 install --upgrade pip \
   && pip3 install sphinx-panels \
   && pip3 install tomli
