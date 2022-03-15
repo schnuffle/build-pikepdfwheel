@@ -18,7 +18,7 @@ ARG DEB_PACKAGES="\
 
 ARG BUILD_PACKAGES="\
  build-essential \
- debhelper-compat
+ debhelper-compat \
  dh-python \
  python3-all-dev \
  python3-pil \
