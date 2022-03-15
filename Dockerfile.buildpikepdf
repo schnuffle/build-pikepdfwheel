@@ -1,42 +1,53 @@
 FROM ghcr.io/schnuffle/build-pikepdfwheel-backport-arm-base-qpdf:latest
 
 ARG DEB_PACKAGES="\
-"
+  packaging-dev \ 
+  debian-keyring \
+  devscripts \
+  equivs"
+
+# MISSING build dep packages in bullseye:
+# python3-setuptool-scm
+# python3-setuptool-scm-git-archive
+# python3-sphinx-panels
+# python3-tomli
+# Those will need to be installed with pip
+
+# QPDF has been already installed into the image built from a backport
+# libqpdf-dev \
+
 ARG BUILD_PACKAGES="\
  build-essential \
  debhelper-compat
  dh-python \
- libqpdf-dev \
  python3-all-dev \
  python3-pil \
  python3-pybind11 \
  python3-setuptools \
- python3-setuptools-scm \
- python3-setuptools-scm-git-archive \
  python3-sphinx \
  python3-sphinx-issues \
  python3-sphinx-rtd-theme \
- python3-sphinx-panels \
  python3-matplotlib \
  python3-packaging \
  python3-ipython \
- python3-lxml \
- python3-tomli"
+ python3-lxml"
   
 WORKDIR /usr/src
 
 RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/sources.list.d/bookworm-src.list \
   && apt update \
-  && apt install -y --no-install-recommends $BUILD_PACKAGES \
+  && apt install -y --no-install-recommends $DEB_PACKAGES $BUILD_PACKAGES \
   && python3 -m pip install --upgrade pip wheel \
   && python3 -m pip install setuptools-scm \
   && python3 -m pip install setuptools_scm_git_archive \
-  && python3 -m pip install pybind11 \
   && python3 -m pip install sphinx-panels \
   && python3 -m pip install tomli
 
 
+
 WORKDIR /usr/src
+
+# The packages not existing in bullseye need to be remove from the control file
 COPY debian.control .
 
 RUN echo "Building pikepdf backport" \
