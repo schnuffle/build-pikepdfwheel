@@ -44,17 +44,3 @@ Description: Python library to read and write PDFs with QPDF
    * Implements more of the PDF specification than existing Python PDF tools
    * IPython notebook and Jupyter integration
 
-Package: pikepdf-doc
-Section: doc
-Architecture: all
-Depends:
- ${misc:Depends},
- ${sphinxdoc:Depends},
-Built-Using: ${sphinxdoc:Built-Using}
-Description: Python library to read and write PDFs with QPDF - documentation
- pikepdf is a Python library to read and write PDFs with QPDF.
- .
- This package includes pikepdf's HTML documentation.
- .
- See the description for the pikepdf binary package for more
- information about pikepdf.
