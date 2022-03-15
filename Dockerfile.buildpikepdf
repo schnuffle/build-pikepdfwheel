@@ -38,13 +38,11 @@ RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/source
   && apt update \
   && apt install -y --no-install-recommends $DEB_PACKAGES $BUILD_PACKAGES \
   && python3 -m pip install --upgrade pip wheel \
-  && python3 -m pip install setuptools-scm \
-  && python3 -m pip install setuptools_scm_git_archive \
-  && python3 -m pip install sphinx-panels \
-  && python3 -m pip install tomli \
-  && python3 -m pip install pybind11[global]
-
-
+  && python3 -m pip install setuptools-scm==5.0.1 \
+  && python3 -m pip install setuptools_scm_git_archive==1.1 \
+  && python3 -m pip install sphinx-panels==0.6.0 \
+  && python3 -m pip install tomli==2.0.1 \
+  && python3 -m pip install pybind11[global]==2.6.2
 
 WORKDIR /usr/src
 
