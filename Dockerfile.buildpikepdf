@@ -45,6 +45,11 @@ RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/source
   && python3 -m pip install tomli==2.0.1 \
   && python3 -m pip install pybind11[global]==2.6.2
 
+RUN echo "Installed debian packages" \
+  && dpkg -l \
+  && echo "PIP Freeze:" \
+  && pip3 freeze
+
 WORKDIR /usr/src
 
 # The packages not existing in bullseye need to be remove from the control file
