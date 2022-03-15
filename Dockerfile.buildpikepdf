@@ -38,7 +38,7 @@ WORKDIR /usr/src
 RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/sources.list.d/bookworm-src.list \
   && apt update \
   && apt install -y --no-install-recommends $DEB_PACKAGES $BUILD_PACKAGES \
-  && python3 -m pip install --upgrade pip wheel \
+  && python3 -m pip install --upgrade pip \
   && python3 -m pip install setuptools-scm==5.0.1 \
   && python3 -m pip install setuptools_scm_git_archive==1.1 \
   && python3 -m pip install sphinx-panels==0.6.0 \
@@ -55,7 +55,7 @@ RUN echo "Building pikepdf backport" \
   && cd pikepdf \
   && apt source pikepdf/testing \
   && cd pikepdf-5.0.1+dfsg \
-  && cp /usr/src/debian.control debian/control \
-  && DEBEMAIL=me@schnuffle.de dch --bpo \
-  && dpkg-buildpackage -b -us -uc \
+#  && cp /usr/src/debian.control debian/control \
+#  && DEBEMAIL=me@schnuffle.de dch --bpo \
+  && dpkg-buildpackage -us -uc -d \
   && apt install -y --no-install-recommends $(ls ../python3-pikepdf_*.deb) 
