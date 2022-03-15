@@ -44,8 +44,8 @@ RUN echo "building/installing pikepdf wheel" \
   && python3 -m pip install wheels/*.whl \
   && python3 -m pip freeze
 
-WORKDIR /usr/src/
 RUN echo "Building/installing psycopg2 wheel" \
+  && cd /usr/src \
   && git clone https://github.com/psycopg/psycopg2.git \
   && cd psycopg2 \
   && mkdir wheels \
