@@ -27,7 +27,8 @@ ARG RUNTIME_PACKAGES="\
 # Binary dependencies
 RUN apt-get update \
   && apt-get -y upgrade \ 
-  && apt-get -y --no-install-recommends install $BUILD_PACKAGES $RUNTIME_PACKAGES
+  && apt-get -y --no-install-recommends install $BUILD_PACKAGES $RUNTIME_PACKAGES \
+  && dpkg -l | grep qpdf
 
 WORKDIR /usr/src/
 
