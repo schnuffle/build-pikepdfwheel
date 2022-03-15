@@ -28,7 +28,7 @@ ARG RUNTIME_PACKAGES="\
 RUN apt-get update \
   && apt-get -y upgrade \ 
   && apt-get -y --no-install-recommends install $BUILD_PACKAGES $RUNTIME_PACKAGES \
-  && apt-get -y --no-install-recommends install $(ls /usr/src/qpdf/libqpdf-dev*.deb)
+  && apt-get -y --no-install-recommends install $(ls /usr/src/qpdf/libqpdf-dev*.deb) \
   && dpkg -l | grep qpdf
 
 WORKDIR /usr/src/
