@@ -31,15 +31,16 @@ RUN apt-get update \
 
 WORKDIR /usr/src/
 
-RUN echo "building pikepdf wheel" \
-  && ppython3 -m pip install --upgrade pip wheel --upgrade pip wheel \
+RUN echo "building/installing pikepdf wheel" \
+  && python3 -m pip install --upgrade pip wheel \
   && git clone https://github.com/pikepdf/pikepdf.git \
   && cd pikepdf \
   && mkdir wheels \
   && git checkout --quiet $PIKEPDF_VERSION \
-  && pip wheel . -w wheels \
+  && python3 -m pip wheel . -w wheels \
   && ls -la wheels \
-  && python3 -m pip install wheels/*.whl
+  && python3 -m pip install wheels/*.whl \
+  && python3 -m pip freeze
 
 RUN echo "building jbig2enc" \
   && mkdir /usr/src/jbig2enc \
