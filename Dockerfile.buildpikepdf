@@ -4,7 +4,8 @@ ARG DEB_PACKAGES="\
   packaging-dev \ 
   debian-keyring \
   devscripts \
-  equivs"
+  equivs \
+  git"
 
 # MISSING build dep packages in bullseye:
 # python3-setuptool-scm
