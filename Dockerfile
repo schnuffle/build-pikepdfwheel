@@ -4,6 +4,7 @@ ARG PIKEPDF_VERSION="v5.0.1"
 ARG DEBIAN_FRONTEND=noninteractive
 ARG BUILD_PACKAGES="\
   build-essential \
+  gcc \
   debhelper \
   debian-keyring \
   devscripts \
