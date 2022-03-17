@@ -1,4 +1,4 @@
-FROM ghcr.io/schnuffle/build-pikepdfwheel-backport-arm-base-qpdf:latest
+FROM python:3.9-slim
 
 ARG PIKEPDF_VERSION="v5.0.1"
 ARG DEBIAN_FRONTEND=noninteractive
@@ -92,7 +92,7 @@ RUN echo "building/installing pikepdf wheel" \
   && python3 -m pip install wheels/*.whl \
   && python3 -m pip freeze
 
-# build install pscopg2
+# build install psycopg2
 RUN echo "Building/installing psycopg2 wheel" \
   && cd /usr/src \
   && git clone https://github.com/psycopg/psycopg2.git \
@@ -118,7 +118,9 @@ RUN echo "building jbig2enc" \
   && ls -la /usr/src/jbig2enc \
   && apt-get -y --autoremove purge $BUILD_PACKAGES \
   && apt-get clean \
-  && rm -fR /usr/src/*
+  && rm -rf /usr/src/qpdf \
+  && rm -rf /usr/src/psycopg2 \
+  && rm -rf /usr/src/pikepdf
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* \
   && rm -rf /var/tmp/* \
