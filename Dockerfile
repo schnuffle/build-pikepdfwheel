@@ -24,6 +24,7 @@ ARG BUILD_PACKAGES="\
   libxslt1-dev \
   python3-dev \
   python3-pip \
+  python3-levenshtein
   packaging-dev \ 
   tzdata \
   zlib1g-dev"
