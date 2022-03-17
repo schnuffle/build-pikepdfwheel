@@ -81,33 +81,41 @@ RUN if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
     && apt update \
     && apt upgrade -y \
     && apt install -y --no-install-recommends libqpdf28 qpdf; \
-	fi \
+  fi \
 
-
-WORKDIR /usr/src/
-
-# build/install pikepdf
-RUN echo "building/installing pikepdf wheel" \
-  && python3 -m pip install --upgrade pip wheel \
-  && git clone https://github.com/pikepdf/pikepdf.git \
-  && cd pikepdf \
-  && mkdir wheels \
-  && git checkout --quiet $PIKEPDF_VERSION \
-  && python3 -m pip wheel . -w wheels \
-  && ls -la wheels \
-  && python3 -m pip install wheels/*.whl \
-  && python3 -m pip freeze
+# build/install pikepdf on arm
+RUN  if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
+  then \
+    echo "building/installing pikepdf wheel" \
+    && python3 -m pip install --upgrade pip wheel \
+    && cd /usr/src \
+    && git clone https://github.com/pikepdf/pikepdf.git \
+    && cd pikepdf \
+    && mkdir wheels \
+    && git checkout --quiet $PIKEPDF_VERSION \
+    && python3 -m pip wheel . -w wheels \
+    && ls -la wheels \
+    && python3 -m pip install wheels/*.whl \
+    && python3 -m pip freeze; \
+  else \
+    echo "No need to compile wheel"; \
+  fi
 
 # build install psycopg2
-RUN echo "Building/installing psycopg2 wheel" \
-  && cd /usr/src \
-  && git clone https://github.com/psycopg/psycopg2.git \
-  && cd psycopg2 \
-  && mkdir wheels \
-  && python3 -m pip wheel . -w wheels \
-  && ls -la wheels \
-  && python3 -m pip install wheels/*.whl \
-  && python3 -m pip freeze
+RUN  if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
+  then \
+    echo "Building/installing psycopg2 wheel" \
+    && cd /usr/src \
+    && git clone https://github.com/psycopg/psycopg2.git \
+    && cd psycopg2 \
+    && mkdir wheels \
+    && python3 -m pip wheel . -w wheels \
+    && ls -la wheels \
+    && python3 -m pip install wheels/*.whl \
+    && python3 -m pip freeze; \
+  else \
+    echo "No need to compile psycopg2"; \
+  fi
 
 # install python deps
 COPY requirements.txt .
@@ -121,12 +129,17 @@ RUN echo "building jbig2enc" \
   && git clone --quiet https://github.com/agl/jbig2enc . \
   && ./autogen.sh \
   && ./configure && make \
-  && ls -la /usr/src/jbig2enc \
+  && ls -la /usr/src/jbig2enc
+
+RUN echo "Cleanup image" \
   && apt-get -y --autoremove purge $BUILD_PACKAGES \
   && apt-get clean \
-  && rm -rf /usr/src/qpdf \
-  && rm -rf /usr/src/psycopg2 \
-  && rm -rf /usr/src/pikepdf \
+  && if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
+  then \
+    rm -rf /usr/src/psycopg2 \
+    && rm -rf /usr/src/pikepdf \
+    && rm -rf /usr/src/qpdf; \
+  fi \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* \
   && rm -rf /var/tmp/* \
