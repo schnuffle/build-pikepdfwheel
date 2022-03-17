@@ -63,8 +63,10 @@ WORKDIR /usr/src
 
 # Backporting qpdf from debian testing on arm
 RUN if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
-  then \
+    then \
     echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/sources.list.d/bookworm-src.list \
+    && apt update \
+    && apt upgrade -y \
     && apt install -y --no-install-recommends $BUILD_PACKAGES $RUNTIME_PACKAGES \
     && mkdir qpdf \
     && cd qpdf \
@@ -78,14 +80,12 @@ RUN if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
     && dpkg -l | grep qpdf; \
   else \
     echo "Skipping qpdf build because pikepdf binary wheels are available." \
-    && apt update \
-    && apt upgrade -y \
     && apt install -y --no-install-recommends libqpdf28 qpdf; \
-  fi \
+  fi
 
 # build/install pikepdf on arm
-RUN  if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
-  then \
+RUN if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
+    then \
     echo "building/installing pikepdf wheel" \
     && python3 -m pip install --upgrade pip wheel \
     && cd /usr/src \
@@ -102,7 +102,7 @@ RUN  if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
   fi
 
 # build install psycopg2
-RUN  if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
+RUN if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
   then \
     echo "Building/installing psycopg2 wheel" \
     && cd /usr/src \
@@ -135,7 +135,7 @@ RUN echo "Cleanup image" \
   && apt-get -y --autoremove purge $BUILD_PACKAGES \
   && apt-get clean \
   && if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
-  then \
+    then \
     rm -rf /usr/src/psycopg2 \
     && rm -rf /usr/src/pikepdf \
     && rm -rf /usr/src/qpdf; \
