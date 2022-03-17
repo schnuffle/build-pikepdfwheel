@@ -64,7 +64,7 @@ WORKDIR /usr/src
 # Backporting qpdf from debian testing
 RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/sources.list.d/bookworm-src.list \
   && apt update \
-  && apt upgrade \
+  && apt upgrade -y \
   && apt install -y --no-install-recommends $BUILD_PACKAGES $RUNTIME_PACKAGES \
   && mkdir qpdf \
   && cd qpdf \
