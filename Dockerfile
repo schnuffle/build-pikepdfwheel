@@ -63,13 +63,15 @@ ARG RUNTIME_PACKAGES="\
   
 WORKDIR /usr/src
 
+RUN apt update \
+  && apt upgrade -y \
+  && apt install -y --no-install-recommends $BUILD_PACKAGES $RUNTIME_PACKAGES
+
 # Backporting qpdf from debian testing on arm
 RUN if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
     then \
     echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/sources.list.d/bookworm-src.list \
     && apt update \
-    && apt upgrade -y \
-    && apt install -y --no-install-recommends $BUILD_PACKAGES $RUNTIME_PACKAGES \
     && mkdir qpdf \
     && cd qpdf \
     && apt source libqpdf28/testing \
@@ -82,8 +84,6 @@ RUN if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
     && dpkg -l | grep qpdf; \
   else \
     echo "Skipping qpdf build because pikepdf binary wheels are available." \
-    && apt update \
-    && apt upgrade -y \
     && apt install -y --no-install-recommends libqpdf28 qpdf; \
   fi
 
