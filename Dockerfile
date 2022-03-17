@@ -58,11 +58,14 @@ ARG RUNTIME_PACKAGES="\
   unpaper \
   # Mime type detection
   zlib1g"
-
+  
 WORKDIR /usr/src
 
+# Backporting qpdf from debian testing
 RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/sources.list.d/bookworm-src.list \
   && apt update \
+  && apt upgrade \
+  && apt install -y --no-install-recommends $BUILD_PACKAGES $RUNTIME_PACKAGES \
   && mkdir qpdf \
   && cd qpdf \
   && apt source libqpdf28/testing \
@@ -77,6 +80,7 @@ RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/source
 
 WORKDIR /usr/src/
 
+# build/install pikepdf
 RUN echo "building/installing pikepdf wheel" \
   && python3 -m pip install --upgrade pip wheel \
   && git clone https://github.com/pikepdf/pikepdf.git \
@@ -88,6 +92,7 @@ RUN echo "building/installing pikepdf wheel" \
   && python3 -m pip install wheels/*.whl \
   && python3 -m pip freeze
 
+# build install pscopg2
 RUN echo "Building/installing psycopg2 wheel" \
   && cd /usr/src \
   && git clone https://github.com/psycopg/psycopg2.git \
@@ -98,9 +103,12 @@ RUN echo "Building/installing psycopg2 wheel" \
   && python3 -m pip install wheels/*.whl \
   && python3 -m pip freeze
 
+# install python deps
+COPY requirements.txt .
 RUN echo "building/installing python requirements" \
   && python3 -m pip install -r requirements.txt
-  
+
+# build install jibig2enc
 RUN echo "building jbig2enc" \
   && mkdir /usr/src/jbig2enc \
   && cd /usr/src/jbig2enc \
@@ -110,6 +118,7 @@ RUN echo "building jbig2enc" \
   && ls -la /usr/src/jbig2enc \
   && apt-get -y --autoremove purge $BUILD_PACKAGES \
   && apt-get clean \
+  && rm -fR /usr/src/*
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* \
   && rm -rf /var/tmp/* \
