@@ -61,21 +61,27 @@ ARG RUNTIME_PACKAGES="\
   
 WORKDIR /usr/src
 
-# Backporting qpdf from debian testing
-RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/sources.list.d/bookworm-src.list \
-  && apt update \
-  && apt upgrade -y \
-  && apt install -y --no-install-recommends $BUILD_PACKAGES $RUNTIME_PACKAGES \
-  && mkdir qpdf \
-  && cd qpdf \
-  && apt source libqpdf28/testing \
-  && cd qpdf-10.6.2 \
-  && DEBEMAIL=me@schnuffle.de dch --bpo \
-  && dpkg-buildpackage -b -us -uc \
-  && apt install -y --no-install-recommends $(ls ../libqpdf28_*.deb) \
-  && apt install -y --no-install-recommends $(ls ../libqpdf-dev_*.deb) \
-  && apt install -y --no-install-recommends $(ls ../qpdf_*.deb) \
-  && dpkg -l | grep qpdf
+# Backporting qpdf from debian testing on arm
+RUN if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
+  then \
+    echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/sources.list.d/bookworm-src.list \
+    && apt install -y --no-install-recommends $BUILD_PACKAGES $RUNTIME_PACKAGES \
+    && mkdir qpdf \
+    && cd qpdf \
+    && apt source libqpdf28/testing \
+    && cd qpdf-10.6.2 \
+    && DEBEMAIL=me@schnuffle.de dch --bpo \
+    && dpkg-buildpackage -b -us -uc \
+    && apt install -y --no-install-recommends $(ls ../libqpdf28_*.deb) \
+    && apt install -y --no-install-recommends $(ls ../libqpdf-dev_*.deb) \
+    && apt install -y --no-install-recommends $(ls ../qpdf_*.deb) \
+    && dpkg -l | grep qpdf; \
+  else \
+    echo "Skipping qpdf build because pikepdf binary wheels are available." \
+    && apt update \
+    && apt upgrade -y \
+    && apt install -y --no-install-recommends libqpdf28 qpdf; \
+	fi \
 
 
 WORKDIR /usr/src/
