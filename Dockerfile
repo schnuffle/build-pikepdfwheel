@@ -24,38 +24,38 @@ ARG BUILD_PACKAGES="\
   python3-dev \
   python3-pip \
   packaging-dev \ 
-	tzdata \
+  tzdata \
   zlib1g-dev"
 
 
 ARG RUNTIME_PACKAGES="\
   curl \
-	file \
+  file \
   # fonts for text file thumbnail generation
-	fonts-liberation \
+  fonts-liberation \
   gettext \
   ghostscript \
   gnupg \
   gosu \
   icc-profiles-free \
   imagemagick \
-	liblept5 \
+  media-types \
+  liblept5 \
   libxml2 \
   optipng \
   python3 \
   python3-setuptools \
-  media-types \
   # thumbnail size reduction
   pngquant \
-	# OCRmyPDF dependencies
-	tesseract-ocr \
-	tesseract-ocr-eng \
-	tesseract-ocr-deu \
-	tesseract-ocr-fra \
-	tesseract-ocr-ita \
-	tesseract-ocr-spa \
+  # OCRmyPDF dependencies
+  tesseract-ocr \
+  tesseract-ocr-eng \
+  tesseract-ocr-deu \
+  tesseract-ocr-fra \
+  tesseract-ocr-ita \
+  tesseract-ocr-spa \
   tzdata \
-	unpaper \
+  unpaper \
   # Mime type detection
   zlib1g"
 
@@ -99,7 +99,7 @@ RUN echo "Building/installing psycopg2 wheel" \
   && python3 -m pip freeze
 
 RUN echo "building/installing python requirements" \
-  && wget https://github.com/schnuffle/paperless-ngx/blob/feature-split-dockerimage/requirements.txt
+  && python3 -m pip install -r requirements.txt
   
 RUN echo "building jbig2enc" \
   && mkdir /usr/src/jbig2enc \
