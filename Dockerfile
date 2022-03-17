@@ -120,7 +120,7 @@ RUN echo "building jbig2enc" \
   && apt-get clean \
   && rm -rf /usr/src/qpdf \
   && rm -rf /usr/src/psycopg2 \
-  && rm -rf /usr/src/pikepdf
+  && rm -rf /usr/src/pikepdf \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /tmp/* \
   && rm -rf /var/tmp/* \
