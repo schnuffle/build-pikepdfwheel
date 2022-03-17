@@ -4,32 +4,76 @@ ARG PIKEPDF_VERSION="v5.0.1"
 ARG DEBIAN_FRONTEND=noninteractive
 ARG BUILD_PACKAGES="\
   build-essential \
+  debhelper \
+  debian-keyring \
+  devscripts \
+  equivs  \
   git \
   libtool \
   libjpeg62-turbo-dev \
+  libleptonica-dev \
   libpq-dev \
-  python3-dev \
-  python3-pip \
+  libmagic-dev \
   libxml2-dev \
   libxslt1-dev \
-  libleptonica-dev \
+  libjpeg-dev \
+  libgnutls28-dev \
+  # for Numpy
+  libatlas-base-dev \
+  libxslt1-dev \
+  python3-dev \
+  python3-pip \
+  packaging-dev \ 
+	tzdata \
   zlib1g-dev"
+
 
 ARG RUNTIME_PACKAGES="\
   curl \
+	file \
+  # fonts for text file thumbnail generation
+	fonts-liberation \
+  gettext \
+  ghostscript \
+  gnupg \
   gosu \
+  icc-profiles-free \
+  imagemagick \
+	liblept5 \
   libxml2 \
+  optipng \
   python3 \
   python3-setuptools \
+  media-types \
+  # thumbnail size reduction
+  pngquant \
+	# OCRmyPDF dependencies
+	tesseract-ocr \
+	tesseract-ocr-eng \
+	tesseract-ocr-deu \
+	tesseract-ocr-fra \
+	tesseract-ocr-ita \
+	tesseract-ocr-spa \
   tzdata \
+	unpaper \
+  # Mime type detection
   zlib1g"
 
-# Binary dependencies
-RUN apt-get update \
-  && apt-get -y upgrade \ 
-  && apt-get -y --no-install-recommends install $BUILD_PACKAGES $RUNTIME_PACKAGES \
-  && apt-get -y --no-install-recommends install $(ls /usr/src/qpdf/libqpdf-dev*.deb) \
+WORKDIR /usr/src
+
+RUN echo "deb-src http://deb.debian.org/debian/ bookworm main" > /etc/apt/sources.list.d/bookworm-src.list \
+  && apt update \
+  && mkdir qpdf \
+  && cd qpdf \
+  && apt source libqpdf28/testing \
+  && cd qpdf-10.6.2 \
+  && DEBEMAIL=me@schnuffle.de dch --bpo \
+  && dpkg-buildpackage -b -us -uc \
+  && apt install -y --no-install-recommends $(ls ../libqpdf28_*.deb) \
+  && apt install -y --no-install-recommends $(ls ../libqpdf-dev_*.deb) \
+  && apt install -y --no-install-recommends $(ls ../qpdf_*.deb) \
   && dpkg -l | grep qpdf
+
 
 WORKDIR /usr/src/
 
@@ -53,6 +97,9 @@ RUN echo "Building/installing psycopg2 wheel" \
   && ls -la wheels \
   && python3 -m pip install wheels/*.whl \
   && python3 -m pip freeze
+
+RUN echo "building/installing python requirements" \
+  && wget https://github.com/schnuffle/paperless-ngx/blob/feature-split-dockerimage/requirements.txt
   
 RUN echo "building jbig2enc" \
   && mkdir /usr/src/jbig2enc \
