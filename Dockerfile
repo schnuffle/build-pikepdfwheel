@@ -80,6 +80,8 @@ RUN if [ "$(uname -m)" = "armv7l" ] || [ "$(uname -m)" = "aarch64" ]; \
     && dpkg -l | grep qpdf; \
   else \
     echo "Skipping qpdf build because pikepdf binary wheels are available." \
+    && apt update \
+    && apt upgrade -y \
     && apt install -y --no-install-recommends libqpdf28 qpdf; \
   fi
 
